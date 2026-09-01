@@ -1,4 +1,5 @@
 <script setup>
+import AppLayout from './layout/AppLayout.vue';
 
 
 </script>
@@ -6,6 +7,6 @@
 
 <template>
     <div>
-        <p>Lorem ipsum dolor sit amet.</p>
+        <AppLayout/>
     </div>
 </template>
