@@ -1,18 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TodoController;
+use App\Http\Controllers\TodosController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 
-Route::get('/todo', [TodoController::class, 'index']);
-Route::get('/todo/{id}', [TodoController::class, 'getByStatus']);
-
-Route::put('/appendTodo', [TodoController::class, 'put']);
-Route::put('/user', [TodoController::class, 'storeUser']);
-
-Route::post('/', [TodoController::class, 'post']);
-Route::delete('/', [TodoController::class, 'delete']);
+Route::get('/todo', [TodosController::class, 'index']);
+Route::post('/user', [TodosController::class, 'storeUser']);

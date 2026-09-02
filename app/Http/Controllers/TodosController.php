@@ -25,13 +25,13 @@ class TodosController extends Controller
         
         $validated = $request->validate([
             'todo' => ['required', 'string', 'max:255'],
-        ])
+        ]);
 
-        $todo = Todo::create($validated);
+        $todoCreated = Todo::create($validated);
 
         return response()->json([
             'success' => 'true',
-            'data' => $todo
+            'data' => $todoCreated
         ], 201);
 
     }
@@ -42,17 +42,18 @@ class TodosController extends Controller
      */
     public function storeUser(Request $request)
     {
+
+        // $test = 0;
         
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-        ])
-        
+        ]);
 
-        $test = User::create($validated);
+        $userIdentity = User::create($validated);
 
         return response()->json([
             'success' => 'true',
-            'data' => $todo
+            'data' => $userIdentity
         ], 201);
 
     }
