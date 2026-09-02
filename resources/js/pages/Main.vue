@@ -15,17 +15,18 @@ const TODO_STATUS = ["Done", "Pending"];
 
 
 const createMd = async () => {
+
+    alert("test");
     try {
         const res = await createTodoUser({
             userIdentity: at.value
         });
 
-
         console.log(res);
         // md.value = false;
 
     } catch (error) {
-        console.log("Error creating userIdentity", error);
+        console.log(error);
     }
 };
 
@@ -35,8 +36,6 @@ const onSubmitTodo = async () => {
         const res = await createTodo({
             todo: makeTodos.value
         });
-
-
 
         console.log(res);
     } catch (error) {

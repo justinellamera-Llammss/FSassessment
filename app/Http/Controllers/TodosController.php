@@ -44,11 +44,11 @@ class TodosController extends Controller
     {
         
         $validated = $request->validate([
-            'todo' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
         ])
         
 
-        $test = Todo::create($validated);
+        $test = User::create($validated);
 
         return response()->json([
             'success' => 'true',

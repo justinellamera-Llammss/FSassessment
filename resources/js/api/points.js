@@ -5,10 +5,10 @@ export function getTodo() {
 }
 
 export function createTodo(todoData) {
-    return api.post('/appendTodo', todoData)
+    return api.post('/appendTodo', todoData);
 }
 
-export function createTodoUser(userData) {
-    return api.post('/user', userData)
+export function createTodoUser( userData ) {
+    return api.post('/user', userData);
 }
 
