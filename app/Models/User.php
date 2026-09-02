@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+
 #[Fillable([
     'name', 
     // 'email',
@@ -33,4 +36,9 @@ class User extends Authenticatable
     //         'password' => 'hashed',
     //     ];
     // }
+
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }
 }

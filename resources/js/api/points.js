@@ -4,6 +4,11 @@ export function getTodo() {
     return api.get('/');
 }
 
-export function createTodo(data) {
-    return api.put('/create', data)
+export function createTodo(todoData) {
+    return api.post('/appendTodo', todoData)
 }
+
+export function createTodoUser(userData) {
+    return api.post('/user', userData)
+}
+

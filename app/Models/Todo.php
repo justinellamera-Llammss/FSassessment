@@ -3,13 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Todo extends Model
 {
     //
     protected $table = 'todos_table';
 
-    protected $fillable = ['user_id', 'todo', 'status'];
+    protected $fillable = [
+        'user_id', 
+        'todo', 
+        'status'
+    ];
 
-    
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
