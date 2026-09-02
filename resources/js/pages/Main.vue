@@ -1,54 +1,66 @@
 <script setup>
 import TodoField from '../components/TodoField.vue';
 import { ref, watchEffect, watch } from 'vue';
+import { createTodo } from '../api/points.js';
 
-
-const createTodo = ref('');
+const makeTodos = ref('');
 const searchByKeyword = ref('');
 
+const todos = ref([]);
 
 const TODO_STATUS = ["Done", "Pending"];
 
-watchEffect(() => {
-    console.log(createTodo.value);
-});
+const onSubmit = async () => {
+    try {
 
-const onSubmit = () => {
-    
-};
+        const res = await createTodo({
+            todo: makeTodos.value
+        });
+        
+        console.log(res);
+
+        makeTodos = "";
+    } catch (error) {
+
+        console.log(err);
+    }
+};  
 
 </script>
 
 <template>
     <div class="h-min-auto">
         <div class="w-2xl bg-stone-400 rounded-2xl p-8">
-            <div class="flex flex-col ">
+            <form id="form" @submit.prevent="onSubmit">
+                <div class="flex flex-col ">
 
-                <!-- Keyword Search -->
-                <div class="w-full">
-                    <h1>Search by Keyword</h1>
-                    <input
-                        v-model="searchByKeyword"
-                        placeholder="Keyword Search"
-                        class="rounded-xl p-2 bg-stone-200 mt-2"
-                    >
+                    <!-- Keyword Search -->
+                    <div class="w-full">
+                        <h1>Search by Keyword</h1>
+                        <input
+                            v-model="searchByKeyword"
+                            placeholder="Keyword Search"
+                            class="rounded-xl p-2 bg-stone-200 mt-2"
+                        >
+                    </div>
                 </div>
-            </div>
 
-            <!-- Create To do -->
-            <div class="mt-6 flex ">
-                <div class="w-full">
-                    <h1>Create Todos</h1>
-                    <input
-                        v-model="createTodo"  
-                        placeholder="Create your todos"
-                        class="bg-stone-200 rounded-xl p-2 w-full mt-2"
-                    >
+                <!-- Create To do -->
+                <div class="mt-6 flex ">
+                    <div class="w-full">
+                        <h1>Create Todos</h1>
+                        <input
+                            v-model="makeTodos"  
+                            placeholder="Create your todos"
+                            class="bg-stone-200 rounded-xl p-2 w-full mt-2"
+                        >
+                    </div>
                 </div>
-            </div>
+            </form>
 
             <div class="flex justify-end mt-2">
                 <button
+                    form="form"
                     class="p-2 bg-stone-200 rounded-md hover:bg-stone-300"
                     type="submit"
                 >
