@@ -10,3 +10,4 @@ Route::get('/', function () {
 
 Route::get('/todo', [TodosController::class, 'index']);
 Route::post('/user', [TodosController::class, 'storeUser']);
+Route::post('/createTodo', [TodosController::class, 'store']);

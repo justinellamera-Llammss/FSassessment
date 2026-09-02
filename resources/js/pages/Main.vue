@@ -14,15 +14,23 @@ const todos = ref([]);
 const TODO_STATUS = ["Done", "Pending"];
 
 
+watchEffect(() => {
+    console.log(at.value);
+})
+
 const createMd = async () => {
-    alert("test");
+    // alert("test");
 
     try {
         const res = await createTodoUser({
-            userData: at.value
+            name: at.value
         });
 
-        console.log(res);
+        // if (res.data.success === true) {
+        //     md.value = false;
+        // }
+        md.value = false;
+        console.log(res.data.success);
 
     } catch (error) {
         console.log(error);
@@ -87,13 +95,13 @@ const onSubmitTodo = async () => {
                     </div>
                     
                     
-                    <div class="mt-6 flex ">
+                    <!-- <div class="mt-6 flex ">
                         <div class="w-full">
                             <h1>Create Todos</h1>
                             <input v-model="makeTodos" placeholder="Create your todos"
                                 class="bg-stone-200 rounded-xl p-2 w-full mt-2">
                         </div>
-                    </div>
+                    </div> -->
                 </form> 
 
                 <div class="flex justify-end mt-2">

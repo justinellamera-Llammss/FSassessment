@@ -51,9 +51,11 @@ class TodosController extends Controller
 
         $userIdentity = User::create($validated);
 
+        // dd($request->all());
+
         return response()->json([
             'success' => 'true',
-            'data' => $userIdentity
+            'data' => $request->all()
         ], 201);
 
     }
