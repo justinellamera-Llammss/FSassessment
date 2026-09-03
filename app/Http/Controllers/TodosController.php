@@ -59,11 +59,23 @@ class TodosController extends Controller
         //
     }
 
+    public function updateStatus(Request $request, Todo $todo) 
+    {   
+         $todo->status = $request->status;
+         $todo->save();
+
+         return response()->json([
+            'success' => 'true',
+            'data' => $todo
+         ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         //
+        // $deleteTodos = Todo::
     }
 }

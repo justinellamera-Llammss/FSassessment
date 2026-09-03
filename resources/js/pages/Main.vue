@@ -1,7 +1,7 @@
 <script setup>
 import TodoField from '../components/TodoField.vue';
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, getTodo, } from '../api/points.js';
+import { createTodo, createUser, getTodo, updateTodoStatus} from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
@@ -15,10 +15,6 @@ const todos = ref([]);
 watchEffect(() => {
     console.log(todos.value);
 })
-
-setInterval(() => {
-    loadTodo();
-}, 5000)
 
 const loadTodo = async () => {
     try {
@@ -36,8 +32,6 @@ const loadTodo = async () => {
 
 
 const createMd = async () => {
-    // alert("test");
-
     try {
         const res = await createUser({
             name: at.value
@@ -65,11 +59,28 @@ const onSubmitTodo = async () => {
             todo: makeTodos.value
         });
 
-        // console.log(res);
+        if (res.data.success) {
+            await loadTodo();
+        }
+
     } catch (error) {
         console.log("Error creating Todo", error);
     }
 };
+
+const updateStatus = async (todo) => {
+    const newStatus = todo.status === 'pending' ? 'done' : 'pending';
+
+    try {
+        const res = await updateTodoStatus(todo.id, newStatus);
+
+        todo.status = res.data.data.status;
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 </script>
 
@@ -78,7 +89,6 @@ const onSubmitTodo = async () => {
         <div class="w-2xl bg-stone-400 rounded-2xl p-8">
 
             <div v-if="md">
-
                 <div class="w-full">
                     <h1>Type ur name</h1>
                     <input v-model="at" placeholder="name"
@@ -133,17 +143,34 @@ const onSubmitTodo = async () => {
             </div>
 
             <!-- Result -->
-            <div class="p-2 border-2 border-stone-600 rounded-xl mt-4 bg-stone-100">
-                <div class="bg-stone-200 rounded-md p-2 flex">
-
-                    <div class="w-[70%]">
-                        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-                        {{ }}
+            <div 
+                class="p-2 border-2 border-stone-600 rounded-xl mt-4 bg-stone-100 max-h-80 overflow-auto">
+                <div 
+                    class="bg-stone-200 rounded-md p-2 flex mt-2 justify-between"
+                    v-for="todo in todos"
+                >   
+                <div class="flex flex-row gap-2">
+                    <h3>{{ todo.todo }}</h3>    
+                        <div class="bg-stone-300 text-white px-4 rounded-xl gap-2">
+                            
+                            {{ todo.status === pending ? "done" : 'pending'}}
+                        </div>
                     </div>
 
-                    <!-- Status -->
-                    <div>
-                        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+                    <div class="flex flex-row gap-2">
+                        <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                        hover:bg-stone-500
+                        "
+                            @click="updateStatus(todo.status)"
+                        >
+                            Done
+                        </button>
+
+                        <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                        hover:bg-stone-500
+                        ">
+                            Edit
+                        </button>
                     </div>
                 </div>
             </div>
