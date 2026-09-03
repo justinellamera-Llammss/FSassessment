@@ -1,7 +1,7 @@
 <script setup>
 import TodoField from '../components/TodoField.vue';
-import { ref, watchEffect, watch } from 'vue';
-import { createTodo, createUser } from '../api/points.js';
+import { ref, watchEffect, watch, onMounted } from 'vue';
+import { createTodo, createUser, getTodo, } from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
@@ -14,7 +14,19 @@ const todos = ref([]);
 watchEffect(() => {
     console.log(at.value);
     console.log(bkb.value);
+    console.log(todos.value);
 })
+
+const loadToto = async () => {
+    try {
+        const res = await getTodo(bkb.value);
+
+        todos.value.push(res.data);
+
+    } catch (error) {
+        console.log(error)
+    };
+}
 
 const createMd = async () => {
     // alert("test");
@@ -47,6 +59,10 @@ const onSubmitTodo = async () => {
         console.log("Error creating Todo", error);
     }
 };
+
+onMounted(() => {
+    loadToto();
+})
 
 </script>
 

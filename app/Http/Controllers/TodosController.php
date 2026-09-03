@@ -11,9 +11,17 @@ class TodosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        
+        $todo = Todo::where('user_id', $request->user_id)->get();
+
+        return response()->json([
+            // 'user_id' => $request->user_id,
+            'success' => 'true',
+            'data' => $todo
+        ]);
+
     }
 
     /**
