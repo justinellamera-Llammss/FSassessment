@@ -1,34 +1,34 @@
 <script setup>
 import TodoField from '../components/TodoField.vue';
 import { ref, watchEffect, watch } from 'vue';
-import { createTodo, createTodoUser } from '../api/points.js';
+import { createTodo, createUser } from '../api/points.js';
 
 const makeTodos = ref('');
-const username = ref('');
 const searchByKeyword = ref('');
 const md = ref(true);
 const at = ref("");
+const bkb = ref(null);
 
 const todos = ref([]);
 
 watchEffect(() => {
     console.log(at.value);
+    console.log(bkb.value);
 })
 
 const createMd = async () => {
     // alert("test");
 
     try {
-        const res = await createTodoUser({
+        const res = await createUser({
             name: at.value
         });
 
-        // if (res.data.success === true) {
-        //     md.value = false;
-        // }
+        bkb.value = res.data.data.id
+        // console.log(res.data.data.id);
         md.value = false;
         console.log(res.data.success);
-
+        
     } catch (error) {
         console.log(error);
     }
@@ -38,6 +38,7 @@ const createMd = async () => {
 const onSubmitTodo = async () => {
     try {
         const res = await createTodo({
+            user_id: bkb.value,
             todo: makeTodos.value
         });
 

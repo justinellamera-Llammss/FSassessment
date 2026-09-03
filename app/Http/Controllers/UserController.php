@@ -11,15 +11,17 @@ class UserController extends Controller
 
     public function store(Request $request)
     {        
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
+        // $validated = $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        // ]);
 
-        $userIdentity = User::create($validated);
+        $userIdentity = User::create([
+            "name" => $request->name
+        ]);
 
         return response()->json([
             'success' => 'true',
-            'data' => $request->all()
+            'data' => $userIdentity
         ], 201);
     }
 }

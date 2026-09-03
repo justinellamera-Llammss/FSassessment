@@ -5,7 +5,7 @@ export function getTodo() {
 }
 
 export function createTodo(todoData) {
-    return api.post('/createTodo', todoData);
+    return api.post('/todo', todoData);
 }
 
 export function createTodoUser( name ) {
