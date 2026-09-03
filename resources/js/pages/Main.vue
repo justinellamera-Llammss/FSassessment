@@ -86,7 +86,7 @@ const deleteItem = async (item) => {
         await deleteTodo(item);
 
         todos.value = todos.value.filter((a) => a.id !== item);
-        
+
     } catch (error) {
         console.log(error);
     }
@@ -146,7 +146,27 @@ const deleteItem = async (item) => {
                     </div> -->
                 </form> 
 
-                <div class="flex justify-end mt-2">
+                <div class="flex justify-between mt-2">
+                    <div class="">
+                        <h1>Fitlers</h1>
+                        <div class="flex gap-2">
+                            <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                hover:bg-stone-500
+                            "
+                                @click=""
+                            >
+                                Pending
+                            </button>
+
+                            <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                hover:bg-stone-500"
+                                @click=""
+                            >
+                                Done
+                            </button>
+                        </div>
+                    </div>
+
                     <button form="form" class="p-2 bg-stone-200 rounded-md hover:bg-stone-300" type="submit">
                         Submit
                     </button>
