@@ -61,6 +61,8 @@ class TodosController extends Controller
 
     public function updateStatus(Request $request, Todo $todo) 
     {   
+        dd($request->all());
+        
          $todo->status = $request->status;
          $todo->save();
 

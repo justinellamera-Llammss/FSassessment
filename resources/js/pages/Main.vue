@@ -8,6 +8,7 @@ const searchByKeyword = ref('');
 const md = ref(true);
 const at = ref("");
 const bkb = ref(null);
+const accEdit = ref(false);
 
 const todos = ref([]);
 
@@ -69,12 +70,13 @@ const onSubmitTodo = async () => {
 };
 
 const updateStatus = async (todo) => {
-    const newStatus = todo.status === 'pending' ? 'done' : 'pending';
-
+    // const newStatus = todo.status === 'pending' ? 'done' : 'pending';
+    const newStatus = 'done'
     try {
-        const res = await updateTodoStatus(todo.id, newStatus);
 
-        todo.status = res.data.data.status;
+        const res = await updateTodoStatus(todo, newStatus);
+
+        todo = res.data.data.status;
 
     } catch (error) {
         console.log(error);
@@ -87,7 +89,7 @@ const updateStatus = async (todo) => {
 <template>
     <div class="h-min-auto">
         <div class="w-2xl bg-stone-400 rounded-2xl p-8">
-
+        
             <div v-if="md">
                 <div class="w-full">
                     <h1>Type ur name</h1>
@@ -153,7 +155,7 @@ const updateStatus = async (todo) => {
                     <h3>{{ todo.todo }}</h3>    
                         <div class="bg-stone-300 text-white px-4 rounded-xl gap-2">
                             
-                            {{ todo.status === pending ? "done" : 'pending'}}
+                            {{ todo.status }}
                         </div>
                     </div>
 
