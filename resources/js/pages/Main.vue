@@ -1,7 +1,6 @@
 <script setup>
-import TodoField from '../components/TodoField.vue';
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, getTodo, updateTodoStatus} from '../api/points.js';
+import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, } from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
@@ -11,7 +10,6 @@ const bkb = ref(null);
 const accEdit = ref(false);
 
 const todos = ref([]);
-
 
 watchEffect(() => {
     console.log(todos.value);
@@ -82,6 +80,14 @@ const updateStatus = async (todo) => {
         console.log(error);
     }
 };
+
+const deleteItem = async (item) => {
+    try {
+        await deleteTodo(item);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 </script>
@@ -161,7 +167,7 @@ const updateStatus = async (todo) => {
 
                     <div class="flex flex-row gap-2">
                         <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                        hover:bg-stone-500
+                            hover:bg-stone-500
                         "
                             @click="updateStatus(todo.status)"
                         >
@@ -169,9 +175,10 @@ const updateStatus = async (todo) => {
                         </button>
 
                         <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                        hover:bg-stone-500
-                        ">
-                            Edit
+                            hover:bg-stone-500"
+                            @click="deleteItem(todo.id)"
+                        >
+                            Delete
                         </button>
                     </div>
                 </div>

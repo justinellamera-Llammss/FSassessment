@@ -24,6 +24,10 @@ export function updateTodoStatus(todoId,status) {
     })
 }
 
+export function deleteTodo(todoId) {
+    return api.delete(`/todo/${todoId}`)
+}
+
 
 
 

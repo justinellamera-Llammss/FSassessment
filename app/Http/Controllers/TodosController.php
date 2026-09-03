@@ -62,7 +62,7 @@ class TodosController extends Controller
     public function updateStatus(Request $request, Todo $todo) 
     {   
         dd($request->all());
-        
+
          $todo->status = $request->status;
          $todo->save();
 
@@ -75,9 +75,9 @@ class TodosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Todo $todo)
     {
         //
-        // $deleteTodos = Todo::
+        $todo->delete();
     }
 }
