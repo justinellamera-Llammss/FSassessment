@@ -14,9 +14,9 @@ return new class extends Migration
         //
        Schema::create('todos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->text('todo');
-            $table->string('status')->default('pending');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('todo');
+            $table->enum('status', ['pending', 'done'])->default('pending');
             $table->timestamps();
         });
     }

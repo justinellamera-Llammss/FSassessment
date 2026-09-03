@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Todo;
 
 
@@ -23,43 +22,18 @@ class TodosController extends Controller
     public function store(Request $request)
     {
         
-        $validated = $request->validate([
-            'todo' => ['required', 'string', 'max:255'],
+        $todo = Todo::create([
+            'user_id' => $request->user_id,
+            'todo' => $request->todo,
+            'status' => 'pending',
         ]);
-
-        $todoCreated = Todo::create($validated);
 
         return response()->json([
             'success' => 'true',
-            'data' => $todoCreated
+            'data' => $todo
         ], 201);
 
     }
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function storeUser(Request $request)
-    {
-
-        // $test = 0;
-        
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-
-        $userIdentity = User::create($validated);
-
-        // dd($request->all());
-
-        return response()->json([
-            'success' => 'true',
-            'data' => $request->all()
-        ], 201);
-
-    }
-
 
     /**
      * Display the specified resource.

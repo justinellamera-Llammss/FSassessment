@@ -11,9 +11,6 @@ const at = ref("");
 
 const todos = ref([]);
 
-const TODO_STATUS = ["Done", "Pending"];
-
-
 watchEffect(() => {
     console.log(at.value);
 })
