@@ -84,6 +84,9 @@ const updateStatus = async (todo) => {
 const deleteItem = async (item) => {
     try {
         await deleteTodo(item);
+
+        todos.value = todos.value.filter((a) => a.id !== item);
+        
     } catch (error) {
         console.log(error);
     }
