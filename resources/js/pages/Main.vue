@@ -11,17 +11,24 @@ const bkb = ref(null);
 
 const todos = ref([]);
 
-watchEffect(() => {
-    console.log(at.value);
-    console.log(bkb.value);
-    console.log(todos.value);
-})
+// watchEffect(() => {
+//     console.log(at.value);
+//     console.log(bkb.value);
+//     console.log(todos.value);
+// })
+
+// setInterval(() => {
+
+// loadToto()
+// }, 5000)
 
 const loadToto = async () => {
     try {
+        console.log(todos.value);
         const res = await getTodo(bkb.value);
 
-        todos.value.push(res.data);
+        console.log(res);
+        todos.value = res.data;
 
     } catch (error) {
         console.log(error)
@@ -38,7 +45,11 @@ const createMd = async () => {
 
         bkb.value = res.data.data.id
         // console.log(res.data.data.id);
+
+        await loadToto();
+
         md.value = false;
+        
         console.log(res.data.success);
         
     } catch (error) {
@@ -60,9 +71,10 @@ const onSubmitTodo = async () => {
     }
 };
 
-onMounted(() => {
-    loadToto();
-})
+// onMounted(() => {
+//     loadToto();
+// })
+
 
 </script>
 

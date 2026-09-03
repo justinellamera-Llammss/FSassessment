@@ -5,7 +5,7 @@ export function getTodo(userId) {
     console.log(`==== ${userId} ==== `)
 
     return api.get(`/todo`, {
-        params : {
+        params: {
             user_id: userId
         }
     });
