@@ -68,13 +68,12 @@ const onSubmitTodo = async () => {
 };
 
 const updateStatus = async (todo) => {
-    // const newStatus = todo.status === 'pending' ? 'done' : 'pending';
-    const newStatus = 'done'
+    // console.log(todo.status);
+    const newStatus = todo.status === 'pending' ? 'done' : 'pending';
+
     try {
-
-        const res = await updateTodoStatus(todo, newStatus);
-
-        todo = res.data.data.status;
+        const res = await updateTodoStatus(todo.id, newStatus);
+        todo.status = res.data.data.status;
 
     } catch (error) {
         console.log(error);
@@ -86,7 +85,6 @@ const deleteItem = async (item) => {
         await deleteTodo(item);
 
         todos.value = todos.value.filter((a) => a.id !== item);
-
     } catch (error) {
         console.log(error);
     }
@@ -182,7 +180,10 @@ const deleteItem = async (item) => {
                 >   
                 <div class="flex flex-row gap-2">
                     <h3>{{ todo.todo }}</h3>    
-                        <div class="bg-stone-300 text-white px-4 rounded-xl gap-2">
+                        <div :class="todo.status === 'pending' ? 'bg-stone-300 text-white px-4 rounded-xl gap-2' :
+                        'bg-stone-400 text-white px-4 rounded-xl gap-2'
+                        "
+                        >
                             
                             {{ todo.status }}
                         </div>
@@ -192,7 +193,7 @@ const deleteItem = async (item) => {
                         <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
                             hover:bg-stone-500
                         "
-                            @click="updateStatus(todo.status)"
+                            @click="updateStatus(todo)"
                         >
                             Done
                         </button>

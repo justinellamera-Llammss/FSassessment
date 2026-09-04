@@ -16,11 +16,9 @@ export function createUser(name) {
     return api.post('/user', name);
 }
 
-export function updateTodoStatus(todoId,status) {
+export function updateTodoStatus(todoId, status) {
     return api.patch(`/todo/${todoId}`, {
-        params: {
-            status: status
-        }
+        status: status
     })
 }
 

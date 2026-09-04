@@ -18,7 +18,7 @@ class TodosController extends Controller
 
         return response()->json([
             // 'user_id' => $request->user_id,
-            'success' => 'true',
+            'success' => true,
             'data' => $todo
         ]);
 
@@ -37,7 +37,7 @@ class TodosController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'data' => $todo
         ], 201);
 
@@ -61,23 +61,28 @@ class TodosController extends Controller
 
     public function updateStatus(Request $request, Todo $todo) 
     {   
-        dd($request->all());
+        // dd($request->all());
+        
+        $todo->status = $request->status;
+        $todo->save();
 
-         $todo->status = $request->status;
-         $todo->save();
-
-         return response()->json([
-            'success' => 'true',
+        return response()->json([
+            'success' => true,
             'data' => $todo
-         ]);
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, Todo $todo)
+    public function destroy(Todo $todo)
     {
-        //
+        // dd($todo);
         $todo->delete();
+
+        return response()->json([
+            'success' => true,
+            'data' => $todo
+        ]);
     }
 }
