@@ -1,9 +1,10 @@
 import api from "./api";
 
-export function getTodo(userId) {
+export function getTodo(userId, status) {
     return api.get(`/todo`, {
         params: {
-            user_id: userId
+            user_id: userId,
+            status: status
         }
     });
 }
@@ -25,10 +26,3 @@ export function updateTodoStatus(todoId, status) {
 export function deleteTodo(todoId) {
     return api.delete(`/todo/${todoId}`)
 }
-
-export function filterTodo(filter) {
-    return api.patch('/todo', {
-        status: filter
-    });
-}
-

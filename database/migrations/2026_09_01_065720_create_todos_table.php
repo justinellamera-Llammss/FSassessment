@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('todo');
-            $table->enum('status', ['pending', 'done', 'all'])->default('pending');
+            $table->enum('status', ['pending', 'done'])->default('pending');
             $table->timestamps();
         });
     }

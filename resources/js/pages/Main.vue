@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, filterTodo} from '../api/points.js';
+import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus} from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
@@ -17,9 +17,17 @@ watchEffect(() => {
     console.log(todos.value);
 })
 
+watchEffect(todoStatus, async () => {
+    console.log(todoStatus.value);
+    loadTodo();
+})
+
 const loadTodo = async () => {
     try {
-        const res = await getTodo(bkb.value);
+        const res = await getTodo(
+            bkb.value,
+            todoStatus.value
+        );
 
         console.log(res);
 
@@ -62,6 +70,7 @@ const onSubmitTodo = async () => {
 
         if (res.data.success) {
             await loadTodo();
+            makeTodos.value = '';
         }
 
     } catch (error) {
@@ -87,18 +96,6 @@ const deleteItem = async (item) => {
         await deleteTodo(item);
 
         todos.value = todos.value.filter((a) => a.id !== item);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const filterStatus = async (item) => {
-
-    todoStatus.value = item;
-
-    try {
-        const res = await filterTodo(item);
-
     } catch (error) {
         console.log(error);
     }
@@ -160,21 +157,21 @@ const filterStatus = async (item) => {
                             <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
                                 hover:bg-stone-500
                             "
-                                @click="filterStatus('pending')"
+                                @click="todoStatus = 'pending'"
                             >
                                 Pending
                             </button>
 
                             <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
                                 hover:bg-stone-500"
-                                @click="filterStatus('done')"
+                                @click="todoStatus = 'done'"
                             >
                                 Done
                             </button>
 
                             <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
                                 hover:bg-stone-500"
-                                @click="filterStatus('all')"
+                                @click="todoStatus = 'all'"
                             >
                                 All
                             </button>

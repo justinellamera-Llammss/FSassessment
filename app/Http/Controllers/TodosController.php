@@ -14,7 +14,13 @@ class TodosController extends Controller
     public function index(Request $request)
     {
         // Add pagination later
-        $todo = Todo::where('user_id', $request->user_id)->get();
+        $query = Todo::where('user_id', $request->user_id);
+
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $todo = $query->get();
 
         return response()->json([
             // 'user_id' => $request->user_id,
@@ -70,18 +76,6 @@ class TodosController extends Controller
             'success' => true,
             'data' => $todo
         ]);
-    }
-
-    public function filterStatus(Request $request, Todo $todo) 
-    {   
-        // dd($request->all());
-        if ($request->status && $request->status != 'all') {
-            Todo::where('status', $request->status);
-        }
-
-        
-
-
     }
 
     /**
