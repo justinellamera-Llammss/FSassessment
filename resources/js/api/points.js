@@ -26,6 +26,9 @@ export function deleteTodo(todoId) {
     return api.delete(`/todo/${todoId}`)
 }
 
-
-
+export function filterTodo(filter) {
+    return api.patch('/todo', {
+        status: filter
+    });
+}
 

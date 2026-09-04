@@ -1,13 +1,15 @@
 <script setup>
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, } from '../api/points.js';
+import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, filterTodo} from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
 const md = ref(true);
 const at = ref("");
 const bkb = ref(null);
-const accEdit = ref(false);
+
+
+const todoStatus = ref('all');
 
 const todos = ref([]);
 
@@ -90,6 +92,17 @@ const deleteItem = async (item) => {
     }
 }
 
+const filterStatus = async (item) => {
+
+    todoStatus.value = item;
+
+    try {
+        const res = await filterTodo(item);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 </script>
 
@@ -121,10 +134,6 @@ const deleteItem = async (item) => {
                 </div>
 
                 <form id="form" @submit.prevent="onSubmitTodo">
-                    <!-- <div class="flex flex-col ">
-
-                    </div> -->
-
                     <!-- Create To do -->
                     <div class="mt-6 flex ">
                         <div class="w-full">
@@ -151,16 +160,23 @@ const deleteItem = async (item) => {
                             <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
                                 hover:bg-stone-500
                             "
-                                @click=""
+                                @click="filterStatus('pending')"
                             >
                                 Pending
                             </button>
 
                             <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
                                 hover:bg-stone-500"
-                                @click=""
+                                @click="filterStatus('done')"
                             >
                                 Done
+                            </button>
+
+                            <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                hover:bg-stone-500"
+                                @click="filterStatus('all')"
+                            >
+                                All
                             </button>
                         </div>
                     </div>
@@ -172,41 +188,44 @@ const deleteItem = async (item) => {
             </div>
 
             <!-- Result -->
-            <div 
-                class="p-2 border-2 border-stone-600 rounded-xl mt-4 bg-stone-100 max-h-80 overflow-auto">
                 <div 
-                    class="bg-stone-200 rounded-md p-2 flex mt-2 justify-between"
-                    v-for="todo in todos"
-                >   
-                <div class="flex flex-row gap-2">
-                    <h3>{{ todo.todo }}</h3>    
-                        <div :class="todo.status === 'pending' ? 'bg-stone-300 text-white px-4 rounded-xl gap-2' :
-                        'bg-stone-400 text-white px-4 rounded-xl gap-2'
-                        "
+                    class="p-2 border-2 border-stone-600 rounded-xl mt-4 bg-stone-100 max-h-80 overflow-auto">
+                    <div 
+                        class="bg-stone-200 rounded-md p-2 flex mt-2 justify-between"
+                        v-for="todo in todos"
+                    >
+                        <div v-if="todoStatus === 'all'"
+                        class="flex justify-between"
                         >
-                            
-                            {{ todo.status }}
-                        </div>
-                    </div>
+                            <div class="flex flex-row gap-2">
+                                <h3>{{ todo.todo }}</h3>    
+                                    <div :class="todo.status === 'pending' ? 'bg-stone-300 text-white px-4 rounded-xl gap-2' :
+                                    'bg-stone-400 text-white px-4 rounded-xl gap-2'
+                                    "
+                                    >
+                                        {{ todo.status }}
+                                    </div>
+                                </div>
 
-                    <div class="flex flex-row gap-2">
-                        <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                            hover:bg-stone-500
-                        "
-                            @click="updateStatus(todo)"
-                        >
-                            Done
-                        </button>
+                                <div class="flex flex-row gap-2">
+                                    <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                        hover:bg-stone-500
+                                    "
+                                        @click="updateStatus(todo)"
+                                    >
+                                        Done
+                                    </button>
 
-                        <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                            hover:bg-stone-500"
-                            @click="deleteItem(todo.id)"
-                        >
-                            Delete
-                        </button>
-                    </div>
+                                    <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                        hover:bg-stone-500"
+                                        @click="deleteItem(todo.id)"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>   
                 </div>
-            </div>
         </div>
     </div>
 </template>

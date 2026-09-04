@@ -72,6 +72,19 @@ class TodosController extends Controller
         ]);
     }
 
+    public function filterStatus(Request $request, Todo $todo) 
+    {   
+        // dd($request->all());
+        
+        $todo->status = $request->status;
+        $todo->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $todo
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
