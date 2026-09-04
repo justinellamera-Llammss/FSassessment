@@ -75,14 +75,13 @@ class TodosController extends Controller
     public function filterStatus(Request $request, Todo $todo) 
     {   
         // dd($request->all());
-        
-        $todo->status = $request->status;
-        $todo->save();
+        if ($request->status && $request->status != 'all') {
+            Todo::where('status', $request->status);
+        }
 
-        return response()->json([
-            'success' => true,
-            'data' => $todo
-        ]);
+        
+
+
     }
 
     /**
