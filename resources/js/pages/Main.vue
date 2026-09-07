@@ -246,6 +246,7 @@ const prevPage = () => {
                             class="flex justify-between w-full items-center"
                         >
                             <div class="flex flex-row items-center w-[70%]">
+                            {{ console.log(todo) }}
                                     <div 
                                         :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
                                     >
