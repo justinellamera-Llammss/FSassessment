@@ -10,8 +10,8 @@ Route::post('/user', [UserController::class, 'store']);
 
 
 Route::get('/todo', [TodosController::class, 'index']);
+Route::get('/todo/searchTodo', [TodosController::class, 'testSearch']);
 Route::post('/todo', [TodosController::class, 'store']);
-// Route::put('/todo/{id}', [TodosController::class, 'update']);
 Route::patch('/todo/{todo}', [TodosController::class, 'updateStatus']);
 Route::delete('/todo/{todo}', [TodosController::class, 'destroy']);
 

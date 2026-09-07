@@ -16,6 +16,7 @@ class TodosController extends Controller
         // Add pagination later
         $query = Todo::where('user_id', $request->user_id);
 
+
         if ($request->status && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
@@ -28,6 +29,16 @@ class TodosController extends Controller
             'data' => $todo
         ]);
 
+    }
+
+    public function testSearch(Request $request) 
+    {
+        // dd($request->all());
+
+        $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%');
+    
+
+        return response()->json($sQ);
     }
 
     /**

@@ -1,11 +1,14 @@
 <script setup>
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus} from '../api/points.js';
+import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, searchTodo} from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
 const md = ref(true);
 const at = ref("");
+
+
+// user_id 
 const bkb = ref(null);
 
 
@@ -15,12 +18,12 @@ const todos = ref([]);
 
 watchEffect(() => {
     console.log(todos.value);
-})
+});
 
 watch(todoStatus, async () => {
     console.log(todoStatus.value);
     loadTodo();
-})
+});
 
 const loadTodo = async () => {
     try {
@@ -35,7 +38,7 @@ const loadTodo = async () => {
 
         console.log(todos.value);
     } catch (error) {
-        console.log(error);
+            console.error(error);
     }
 } 
 
@@ -56,7 +59,7 @@ const createMd = async () => {
         // console.log(res.data.success);
         
     } catch (error) {
-        console.log(error);
+            console.error(error);
     }
 };
 
@@ -74,12 +77,11 @@ const onSubmitTodo = async () => {
         }
 
     } catch (error) {
-        console.log("Error creating Todo", error);
+        console.error(error);
     }
 };
 
 const updateStatus = async (todo) => {
-    // console.log(todo.status);
     const newStatus = todo.status === 'pending' ? 'done' : 'pending';
 
     try {
@@ -87,7 +89,7 @@ const updateStatus = async (todo) => {
         todo.status = res.data.data.status;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 
@@ -97,9 +99,26 @@ const deleteItem = async (item) => {
 
         todos.value = todos.value.filter((a) => a.id !== item);
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
+
+const search = async (item) => {
+    
+    try {
+        const res = await searchTodo(`todo/${item}`);
+        console.log(res.data.data);
+        
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+watch(searchByKeyword, async() => {
+    setTimeout(() => {
+        search(searchByKeyword.value);
+    }, 1000);
+})
 
 </script>
 
@@ -127,7 +146,10 @@ const deleteItem = async (item) => {
                 <!-- Keyword Search -->
                 <div class="w-full">
                     <h1>Search by Keyword</h1>
-                    <input v-model="searchByKeyword" placeholder="Keyword Search" class="rounded-xl p-2 bg-stone-200 mt-2">
+                    <input 
+                        v-model="searchByKeyword" 
+                        placeholder="Keyword Search" 
+                        class="rounded-xl p-2 bg-stone-200 mt-2">
                 </div>
 
                 <form id="form" @submit.prevent="onSubmitTodo">
