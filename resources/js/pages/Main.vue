@@ -303,7 +303,7 @@ const prevPage = () => {
                             
                         >
                             <div>
-                                <div class="flex flex-row items-center w-[70%]">
+                                <div class="flex flex-row items-center w-[95%]">
                                     <div 
                                         :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
                                     >
