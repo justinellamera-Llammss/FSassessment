@@ -226,7 +226,7 @@ const prevPage = () => {
                     </div> -->
                 </form> 
 
-                <div v-if="editTodoId" class="mt-4 bg-orange-50 border-orange-300 rounded-xl">
+                <div v-if="editTodoId" class="mt-4 border-orange-300 rounded-xl">
                     <h1 class="text-xs mb-2">Edit Todo</h1>
                     <input 
                         v-model="editItem" 
