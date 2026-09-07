@@ -177,7 +177,7 @@ const prevPage = () => {
                     <!-- Create To do -->
                     <div class="mt-6 flex ">
                         <div class="w-full">
-                            <h1 class="text-xs" >Create Todos</h1>
+                            <h1 class="text-xs">Create Todos</h1>
                             <input v-model="makeTodos" placeholder="Create your todos"
                                 class="text-xs bg-stone-200 rounded-xl p-2 w-full mt-2">
                         </div>
@@ -249,7 +249,7 @@ const prevPage = () => {
                                     <div 
                                         :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
                                     >
-                                        <h3>{{ todo.todo }}</h3>
+                                        <p class="">{{ todo.todo }}</p>
                                     </div>
 
                                     <div :class="todo.status === 'pending' ? ' h-4 bg-orange-400 self-left text-xs text-white px-4 rounded-xl gap-2' :
