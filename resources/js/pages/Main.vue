@@ -142,20 +142,23 @@ const prevPage = () => {
 
 <template>
     <div class="h-min-auto">
-        <div class="w-2xl bg-stone-400 rounded-2xl p-8">
-        
-            <div v-if="md">
+        <div class="w-2xl max-h-[500px] bg-stone-100 rounded-2xl p-8 border-2">
+            <div v-if="md"
+            >
                 <div class="w-full">
-                    <h1>Type ur name</h1>
-                    <input v-model="at" placeholder="name"
-                        class="bg-stone-200 rounded-xl p-2 w-full mt-2">
+                    <h1 class="text-md">Type your name</h1>
+                    <input 
+                        v-model="at" 
+                        placeholder="name"
+                        class="bg-stone-200 rounded-md p-2 w-full mt-2 text-xs focus:outline-none"
+                    >
                 </div>
 
                 <button 
-                    class="p-2 mt-2 bg-stone-200 rounded-md hover:bg-stone-300" 
+                    class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white" 
                     type="submit"
                     v-on:click="createMd"
-                >
+                >  
                     Submit
                 </button>
             </div>
@@ -163,20 +166,20 @@ const prevPage = () => {
             <div v-else>
                 <!-- Keyword Search -->
                 <div class="w-full">
-                    <h1>Search by Keyword</h1>
+                    <h1 class="text-xs">Search by Keyword</h1>
                     <input 
                         v-model="searchByKeyword" 
                         placeholder="Keyword Search" 
-                        class="rounded-xl p-2 bg-stone-200 mt-2">
+                        class="rounded-xl p-2 bg-stone-200 mt-2 text-xs">
                 </div>
 
                 <form id="form" @submit.prevent="onSubmitTodo">
                     <!-- Create To do -->
                     <div class="mt-6 flex ">
                         <div class="w-full">
-                            <h1>Create Todos</h1>
+                            <h1 class="text-xs" >Create Todos</h1>
                             <input v-model="makeTodos" placeholder="Create your todos"
-                                class="bg-stone-200 rounded-xl p-2 w-full mt-2">
+                                class="text-xs bg-stone-200 rounded-xl p-2 w-full mt-2">
                         </div>
                     </div>
                     
@@ -191,26 +194,27 @@ const prevPage = () => {
                 </form> 
 
                 <div class="flex justify-between mt-2">
-                    <div class="">
-                        <h1>Fitlers</h1>
+                    <div class="text-xs">
+                        <!-- <h1 class="text-md">Filters</h1> -->
                         <div class="flex gap-2">
-                            <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                                hover:bg-stone-500
+                            <button class="
+                                bg-orange-500 text-white px-4 py-1 rounded-xl gap-2
+                                hover:bg-orange-600 
                             "
                                 @click="todoStatus = 'pending'"
                             >
                                 Pending
                             </button>
 
-                            <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                                hover:bg-stone-500"
+                            <button class="bg-orange-500 text-white px-4 rounded-xl gap-2
+                                hover:bg-orange-600"
                                 @click="todoStatus = 'done'"
                             >
                                 Done
                             </button>
 
-                            <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
-                                hover:bg-stone-500"
+                            <button class="bg-orange-500 text-white px-4 rounded-xl gap-2
+                                hover:bg-orange-600"
                                 @click="todoStatus = 'all'"
                             >
                                 All
@@ -218,7 +222,11 @@ const prevPage = () => {
                         </div>
                     </div>
 
-                    <button form="form" class="p-2 bg-stone-200 rounded-md hover:bg-stone-300" type="submit">
+                    <button 
+                        form="form" 
+                        class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white" 
+                        type="submit"
+                    >
                         Submit
                     </button>
                 </div>
@@ -226,35 +234,43 @@ const prevPage = () => {
                 
             <!-- Result -->
                 <div 
-                    class="p-2 border-2 border-stone-600 rounded-xl mt-4 bg-stone-100 max-h-80 overflow-auto">
+                    class="
+                        p-2 border-2 border-stone-400 rounded-xl mt-4 
+                        bg-stone-100 max-h-[150px] overflow-auto"
+                    >
                     <div 
                         class="bg-stone-200 rounded-md p-2 flex mt-2 justify-between"
                         v-for="todo in todos"
                     >
                         <div
-                        class="flex justify-between"
+                            class="flex justify-between w-full items-center"
                         >
-                            <div class="flex flex-row gap-2">
-                                <h3>{{ todo.todo }}</h3>    
-                                    <div :class="todo.status === 'pending' ? 'bg-stone-300 text-white px-4 rounded-xl gap-2' :
-                                    'bg-stone-400 text-white px-4 rounded-xl gap-2'
-                                    "
+                            <div class="flex flex-row items-center w-[70%]">
+                                    <div 
+                                        :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
                                     >
+                                        <h3>{{ todo.todo }}</h3>
+                                    </div>
+
+                                    <div :class="todo.status === 'pending' ? ' h-4 bg-orange-400 self-left text-xs text-white px-4 rounded-xl gap-2' :
+                                        ' bg-orange-600 text-white px-4 rounded-xl gap-2 h-4 text-xs'
+                                        "
+                                        >
                                         {{ todo.status }}
                                     </div>
-                                </div>
+                            </div>
 
-                                <div class="flex flex-row gap-2">
-                                    <button class="bg-stone-300 text-white px-4 rounded-xl
-                                        hover:bg-stone-500
+                                <div class="flex flex-row gap-2 text-xs">
+                                    <button class="bg-orange-500 h-4 text-white px-4 rounded-xl
+                                        hover:bg-orange-600
                                     "
                                         @click="updateStatus(todo)"
                                     >
-                                        Done
+                                        {{ todo.status === 'pending' ? 'Done' : 'Undo' }}
                                     </button>
 
-                                    <button class="bg-stone-300 text-white px-4 rounded-xl
-                                        hover:bg-stone-500"
+                                    <button class="bg-orange-600 text-white px-4 rounded-xl
+                                        hover:bg-red-500 text-xs h-4"
                                         @click="deleteItem(todo.id)"
                                     >
                                         Delete
@@ -264,22 +280,22 @@ const prevPage = () => {
                         </div>   
                 </div>
                 <div class="flex gap-4 justify-end mt-4">
+
                     <button
-                        class="bg-stone-300 text-white px-4 px-4 rounded-md hover:bg-stone-500"
+                        class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white"
                         @click="nxtPage"
                     >
                         Next Page
                     </button>
 
                     <button
-                        class="bg-stone-300 text-white px-4 px-4 rounded-md hover:bg-stone-500"
+                        class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white"
                         @click="prevPage"
                     >
                         Previous Page
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
