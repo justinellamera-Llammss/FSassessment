@@ -22,7 +22,7 @@ class TodoFactory extends Factory
             //
             'user_id' => User::factory(), 
             'todo' => fake()->sentence(), 
-            'status' => 'pending',
+            'status' => fake()->randomElement(['pending', 'done']),
         ];
     }
 }

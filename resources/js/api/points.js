@@ -1,11 +1,12 @@
 import api from "./api";
 
-export function getTodo(userId, status, search) {
+export function getTodo(userId, status, search, page = 1) {
     return api.get(`/todo`, {
         params: {
             user_id: userId,
             status: status,
-            search: search
+            search: search,
+            page: page
         }
     });
 }
@@ -26,15 +27,4 @@ export function updateTodoStatus(todoId, status) {
 
 export function deleteTodo(todoId) {
     return api.delete(`/todo/${todoId}`)
-}
-
-export function searchTodo(sVal) {
-
-    // console.log(sVal);
-    return api.get(`/todo/searchTodo`, {
-        params: {
-            search: sVal,
-        }
-    });
-    
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, searchTodo} from '../api/points.js';
+import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus} from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
@@ -11,6 +11,9 @@ const at = ref("");
 // user_id 
 const bkb = ref(null);
 
+
+const currP = ref(1);
+const lP = ref(0);
 
 const todoStatus = ref('all');
 
@@ -25,19 +28,31 @@ watch(todoStatus, async () => {
     loadTodo();
 });
 
+watch(searchByKeyword, async() => {
+    setTimeout(() => {
+        // search(searchByKeyword.value);
+        loadTodo();
+    }, 1000);
+})
+
 const loadTodo = async () => {
     try {
         const res = await getTodo(
             bkb.value,
             todoStatus.value,
-            searchByKeyword.value
+            searchByKeyword.value,
+            currP.value
         );
 
         console.log(res);
-
-        todos.value = res.data.data;
+        // res.data.data.data lol
+        todos.value = res.data.data.data;
 
         console.log(todos.value);
+
+        currP.value = res.data.data.current_page;
+        lP.value = res.data.data.last_page;
+
     } catch (error) {
             console.error(error);
     }
@@ -104,23 +119,20 @@ const deleteItem = async (item) => {
     }
 }
 
-const search = async (item) => {
-    try {
-        const res = await searchTodo(item);
-        console.log(res.data.data);
-        
-        // todos.value = res.data.data``
-    } catch (error) {
-        console.error(error)
+const nxtPage = () => {
+    if (currP.value > lP.value) {
+        currP.value++,
+        loadTodo()
     }
 }
 
-watch(searchByKeyword, async() => {
-    setTimeout(() => {
-        // search(searchByKeyword.value);
-        loadTodo();
-    }, 1000);
-})
+const prevPage = () => {
+    if (currP.value > 1) {
+        currP.value--,
+        loadTodo()
+    }
+}
+
 
 </script>
 
@@ -206,8 +218,8 @@ watch(searchByKeyword, async() => {
                         Submit
                     </button>
                 </div>
-            </div>
 
+                
             <!-- Result -->
                 <div 
                     class="p-2 border-2 border-stone-600 rounded-xl mt-4 bg-stone-100 max-h-80 overflow-auto">
@@ -229,7 +241,7 @@ watch(searchByKeyword, async() => {
                                 </div>
 
                                 <div class="flex flex-row gap-2">
-                                    <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                    <button class="bg-stone-300 text-white px-4 rounded-xl
                                         hover:bg-stone-500
                                     "
                                         @click="updateStatus(todo)"
@@ -237,7 +249,7 @@ watch(searchByKeyword, async() => {
                                         Done
                                     </button>
 
-                                    <button class="bg-stone-300 text-white px-4 rounded-xl gap-2
+                                    <button class="bg-stone-300 text-white px-4 rounded-xl
                                         hover:bg-stone-500"
                                         @click="deleteItem(todo.id)"
                                     >
@@ -247,6 +259,23 @@ watch(searchByKeyword, async() => {
                             </div>
                         </div>   
                 </div>
+                <div class="flex gap-4 justify-end mt-4">
+                    <button
+                        class="bg-stone-300 text-white px-4 px-4 rounded-md hover:bg-stone-500"
+                        @click="nxtPage"
+                    >
+                        Next Page
+                    </button>
+
+                    <button
+                        class="bg-stone-300 text-white px-4 px-4 rounded-md hover:bg-stone-500"
+                        @click="prevPage"
+                    >
+                        Previous Page
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>

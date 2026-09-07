@@ -14,8 +14,8 @@ class TodosController extends Controller
     public function index(Request $request)
     {
         // Add pagination later
-        // $query = Todo::query();
-        $query = Todo::where('user_id', $request->user_id);
+        $query = Todo::query();
+        // $query = Todo::where('user_id', $request->user_id);
 
         // $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
         if ($request->search) {
@@ -26,7 +26,8 @@ class TodosController extends Controller
             $query->where('status', $request->status);
         }
 
-        $todo = $query->get();
+        // $todo = $query->get();
+        $todo = $query->paginate(10);
 
         return response()->json([
             // 'user_id' => $request->user_id,
@@ -36,18 +37,18 @@ class TodosController extends Controller
 
     }
 
-    public function testSearch(Request $request) 
-    {
-        // dd($request->all());
+    // public function testSearch(Request $request) 
+    // {
+    //     // dd($request->all());
 
-        $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
+    //     $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
     
 
-        return response()->json([
-            'success' => true,
-            'data' => $sQ
-        ]);
-    }
+    //     return response()->json([
+    //         'success' => true,
+    //         'data' => $sQ
+    //     ]);
+    // }
 
     /**
      * Store a newly created resource in storage.
