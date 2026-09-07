@@ -14,8 +14,13 @@ class TodosController extends Controller
     public function index(Request $request)
     {
         // Add pagination later
+        // $query = Todo::query();
         $query = Todo::where('user_id', $request->user_id);
 
+        // $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
+        if ($request->search) {
+            $query->where('todo', 'LIKE', '%' . $request->search . '%');
+        }    
 
         if ($request->status && $request->status !== 'all') {
             $query->where('status', $request->status);
@@ -35,10 +40,13 @@ class TodosController extends Controller
     {
         // dd($request->all());
 
-        $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%');
+        $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
     
 
-        return response()->json($sQ);
+        return response()->json([
+            'success' => true,
+            'data' => $sQ
+        ]);
     }
 
     /**

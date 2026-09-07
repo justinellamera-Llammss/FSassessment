@@ -29,7 +29,8 @@ const loadTodo = async () => {
     try {
         const res = await getTodo(
             bkb.value,
-            todoStatus.value
+            todoStatus.value,
+            searchByKeyword.value
         );
 
         console.log(res);
@@ -104,11 +105,11 @@ const deleteItem = async (item) => {
 }
 
 const search = async (item) => {
-    
     try {
-        const res = await searchTodo(`todo/${item}`);
+        const res = await searchTodo(item);
         console.log(res.data.data);
         
+        // todos.value = res.data.data``
     } catch (error) {
         console.error(error)
     }
@@ -116,7 +117,8 @@ const search = async (item) => {
 
 watch(searchByKeyword, async() => {
     setTimeout(() => {
-        search(searchByKeyword.value);
+        // search(searchByKeyword.value);
+        loadTodo();
     }, 1000);
 })
 

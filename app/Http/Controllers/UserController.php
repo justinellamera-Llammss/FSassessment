@@ -20,7 +20,7 @@ class UserController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'data' => $userIdentity
         ], 201);
     }
