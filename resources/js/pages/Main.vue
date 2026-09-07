@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watchEffect, watch, onMounted } from 'vue';
-import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus} from '../api/points.js';
+import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, editTodo} from '../api/points.js';
 
 const makeTodos = ref('');
 const searchByKeyword = ref('');
@@ -16,6 +16,10 @@ const currP = ref(1);
 const lP = ref(1);
 
 const todoStatus = ref('all');
+
+// Edit todo item
+const editItem = ref('');
+const editTodoId = ref(null);
 
 const todos = ref([]);
 
@@ -123,6 +127,35 @@ const deleteItem = async (item) => {
     }
 }
 
+const startEditing = (todo) => {
+    editTodoId.value = todo.id;
+    editItem.value = todo.todo;
+}
+
+const saveEdit = async () => {
+    try {
+        const res = await editTodo(
+            editTodoId.value,
+            editItem.value
+        );
+
+        if (res.data.success) {
+            const updated = todos.value.find(t => t.id === editTodoId.value);
+            if (updated) updated.todo = res.data.data.todo;
+
+            editTodoId.value = null;
+            editItem.value = "";
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const cancelEdit = () => {
+    editTodoId.value = null;
+    editItem.value = "";
+}
+
 const nxtPage = () => {
     if (currP.value < lP.value) {
         currP.value++,
@@ -142,7 +175,7 @@ const prevPage = () => {
 
 <template>
     <div class="h-min-auto">
-        <div class="w-2xl max-h-[500px] bg-stone-100 rounded-2xl p-8 border-2">
+        <div class="w-2xl max-h-[500px] bg-stone-100 rounded-2xl p-8 border-2 overflow-auto">
             <div v-if="md"
             >
                 <div class="w-full">
@@ -192,6 +225,29 @@ const prevPage = () => {
                         </div>
                     </div> -->
                 </form> 
+
+                <div v-if="editTodoId" class="mt-4 bg-orange-50 border-orange-300 rounded-xl">
+                    <h1 class="text-xs mb-2">Edit Todo</h1>
+                    <input 
+                        v-model="editItem" 
+                        placeholder="Edit your todo"
+                        class="text-xs bg-white rounded-xl p-2 w-full border border-orange-300 focus:outline-none"
+                    >
+                    <div class="flex gap-2 mt-2">
+                        <button 
+                            class="text-xs bg-orange-500 text-white px-4 py-1 rounded-xl hover:bg-orange-600"
+                            @click="saveEdit"
+                        >
+                            Save
+                        </button>
+                        <button 
+                            class="text-xs bg-stone-400 text-white px-4 py-1 rounded-xl hover:bg-stone-500"
+                            @click="cancelEdit"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
 
                 <div class="flex justify-between mt-2">
                     <div class="text-xs">
@@ -244,17 +300,18 @@ const prevPage = () => {
                     >
                         <div
                             class="flex justify-between w-full items-center"
+                            
                         >
-                            <div class="flex flex-row items-center w-[70%]">
-                            {{ console.log(todo) }}
+                            <div>
+                                <div class="flex flex-row items-center w-[70%]">
                                     <div 
                                         :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
                                     >
                                         <p class="">{{ todo.todo }}</p>
                                     </div>
-
-                                    <div :class="todo.status === 'pending' ? ' h-4 bg-orange-400 self-left text-xs text-white px-4 rounded-xl gap-2' :
-                                        ' bg-orange-600 text-white px-4 rounded-xl gap-2 h-4 text-xs'
+                                </div>
+                                    <div :class="todo.status === 'pending' ? 'w-20 h-4 bg-orange-400 self-left text-xs text-white px-4 rounded-xl gap-2' :
+                                        ' bg-orange-600 text-white px-4 rounded-xl w-16 gap-2 h-4 text-xs'
                                         "
                                         >
                                         {{ todo.status }}
@@ -263,7 +320,7 @@ const prevPage = () => {
 
                                 <div class="flex flex-row gap-2 text-xs">
                                     <button class="bg-orange-500 h-4 text-white px-4 rounded-xl
-                                        hover:bg-orange-600
+                                        hover:bg-orange-600F
                                     "
                                         @click="updateStatus(todo)"
                                     >
@@ -275,6 +332,14 @@ const prevPage = () => {
                                         @click="deleteItem(todo.id)"
                                     >
                                         Delete
+                                    </button>
+
+                                    
+                                    <button class="bg-orange-600 text-white px-4 rounded-xl
+                                        hover:bg-red-500 text-xs h-4"
+                                        @click="startEditing(todo)"
+                                    >
+                                        Edit
                                     </button>
                                 </div>
                             </div>

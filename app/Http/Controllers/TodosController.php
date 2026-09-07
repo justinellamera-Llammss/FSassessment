@@ -80,15 +80,22 @@ class TodosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateTodoItem(Request $request, Todo $todo)
     {
         //
+        $todo->todo = $request->todo;
+        $todo->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $todo
+        ]);
     }
 
     public function updateStatus(Request $request, Todo $todo) 
     {   
         // dd($request->all());
-        
+    
         $todo->status = $request->status;
         $todo->save();
 

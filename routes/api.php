@@ -12,6 +12,7 @@ Route::post('/user', [UserController::class, 'store']);
 Route::get('/todo', [TodosController::class, 'index']);
 Route::post('/todo', [TodosController::class, 'store']);
 Route::patch('/todo/{todo}', [TodosController::class, 'updateStatus']);
+Route::patch('/todo/editTodo/{todo}', [TodosController::class, 'updateTodoItem']);
 Route::delete('/todo/{todo}', [TodosController::class, 'destroy']);
 
 // Route::get('/user', function (Request $request) {

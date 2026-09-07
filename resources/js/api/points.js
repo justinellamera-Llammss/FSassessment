@@ -28,3 +28,9 @@ export function updateTodoStatus(todoId, status) {
 export function deleteTodo(todoId) {
     return api.delete(`/todo/${todoId}`)
 }
+
+export function editTodo(todo, newTodo) {
+    return api.patch(`/todo/editTodo/${todo}`, {
+        todo: newTodo
+    });    
+}
