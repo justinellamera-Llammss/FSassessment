@@ -17,7 +17,7 @@ watchEffect(() => {
     console.log(todos.value);
 })
 
-watchEffect(todoStatus, async () => {
+watch(todoStatus, async () => {
     console.log(todoStatus.value);
     loadTodo();
 })
@@ -191,7 +191,7 @@ const deleteItem = async (item) => {
                         class="bg-stone-200 rounded-md p-2 flex mt-2 justify-between"
                         v-for="todo in todos"
                     >
-                        <div v-if="todoStatus === 'all'"
+                        <div
                         class="flex justify-between"
                         >
                             <div class="flex flex-row gap-2">
