@@ -13,15 +13,19 @@ const bkb = ref(null);
 
 
 const currP = ref(1);
-const lP = ref(0);
+const lP = ref(1);
 
 const todoStatus = ref('all');
 
 const todos = ref([]);
 
 watchEffect(() => {
-    console.log(todos.value);
+    // console.log(todos.value);
+
+    
+    // console.log(currP.value);
 });
+
 
 watch(todoStatus, async () => {
     console.log(todoStatus.value);
@@ -120,7 +124,7 @@ const deleteItem = async (item) => {
 }
 
 const nxtPage = () => {
-    if (currP.value > lP.value) {
+    if (currP.value < lP.value) {
         currP.value++,
         loadTodo()
     }
