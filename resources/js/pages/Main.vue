@@ -191,7 +191,7 @@ onMounted(() => loadTodo())
     <div class="h-min-auto">
         <div class="w-2xl max-h-[500px] bg-stone-100 rounded-2xl p-8 border-2 overflow-auto">
             
-            <h1 class="text-md">Username : {{  userCreatedUsername }}</h1>
+            <h1 class="text-xs">Username : {{  userCreatedUsername }}</h1>
             <div
                 class="flex flex-row gap-6 mb-4"
             >
