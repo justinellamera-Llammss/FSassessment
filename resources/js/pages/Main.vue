@@ -4,12 +4,13 @@ import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, editTodo
 
 const makeTodos = ref(''); 
 const searchByKeyword = ref('');
-const md = ref(true);
+
+
 const at = ref("");
 
-// user_id 
-const bkb = ref(null);
-
+// user_id User id is one base is one, If a new todo is created append new value to the ref.
+const bkb = ref(1);
+const userCreatedUsername = ref("");
 
 const currP = ref(1);
 const lP = ref(1);
@@ -26,8 +27,8 @@ const todos = ref([]);
 
 watchEffect(() => {
     // console.log(todos.value);
-
-    
+    console.log(JSON.stringify(todos.value, null, 1));
+    // loadTodo();
     // console.log(currP.value);
 });
 
@@ -77,7 +78,7 @@ const loadTodo = async () => {
     }
 } 
 
-
+// Removing this fucntion chaoing it into a one screen apporach only now.
 const createMd = async () => {
     try {
         const res = await createUser({
@@ -86,10 +87,9 @@ const createMd = async () => {
 
         bkb.value = res.data.data.id
         // console.log(res.data.data.id);
-
+        userCreatedUsername.value = at.value
         await loadTodo();
-
-        md.value = false;
+        at.value = "";
         
         // console.log(res.data.success);
         
@@ -98,8 +98,10 @@ const createMd = async () => {
     }
 };
 
-
+// Change the await loadTodo not to check if a user.id is provided 
 const onSubmitTodo = async () => {
+    // await loadTodo();
+    
     try {
         const res = await createTodo({
             user_id: bkb.value,
@@ -107,7 +109,7 @@ const onSubmitTodo = async () => {
         });
 
         if (res.data.success) {
-            await loadTodo();
+            
             makeTodos.value = '';
         }
 
@@ -181,20 +183,25 @@ const prevPage = () => {
     }
 }
 
+onMounted(() => loadTodo())
 
 </script>
 
 <template>
     <div class="h-min-auto">
         <div class="w-2xl max-h-[500px] bg-stone-100 rounded-2xl p-8 border-2 overflow-auto">
-            <div v-if="md"
+            
+            <h1 class="text-md">Username : {{  userCreatedUsername }}</h1>
+            <div
+                class="flex flex-row gap-6 mb-4"
             >
+              
                 <div class="w-full">
-                    <h1 class="text-md">Type your name</h1>
-                    <input 
+
+                <input 
                         v-model="at" 
                         placeholder="name"
-                        class="bg-stone-200 rounded-md p-2 w-full mt-2 text-xs focus:outline-none"
+                         class="bg-stone-200 rounded-xl p-2 w-full mt-2 text-xs focus:outline-none"
                     >
                 </div>
 
@@ -207,7 +214,7 @@ const prevPage = () => {
                 </button>
             </div>
 
-            <div v-else>
+            <div>
                 <!-- ====== Keyword Search + Per Page  ======-->
                 <div class="w-full flex gap-4 items-end">
                     <div class="flex-1">
@@ -236,7 +243,9 @@ const prevPage = () => {
                     <div class="mt-6 flex ">
                         <div class="w-full">
                             <h1 class="text-xs">Create Todos</h1>
-                            <input v-model="makeTodos" placeholder="Create your todos"
+                            <input 
+                                v-model="makeTodos" 
+                                placeholder="Create your todos"
                                 class="text-xs bg-stone-200 rounded-xl p-2 w-full mt-2">
                         </div>
                     </div>
@@ -325,9 +334,11 @@ const prevPage = () => {
                     >
                         <div
                             class="flex justify-between w-full items-center"
-                            
                         >
                             <div>
+                                <div class="text-xs">
+                                    <h1>Name: {{ todo.user?.name ?? 'Unknown' }}</h1>
+                                </div>
                                 <div class="flex flex-row items-center w-[95%]">
                                     <div 
                                         :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"

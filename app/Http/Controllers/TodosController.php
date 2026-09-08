@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
-
+use App\Models\User;
 
 class TodosController extends Controller
 {
@@ -14,10 +14,11 @@ class TodosController extends Controller
     public function index(Request $request)
     {
         // Add pagination later
-        $query = Todo::query();
-        // $query = Todo::where('user_id', $request->user_id);
-        
-        // $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
+        // $name = Todo::where('name', $request->user_id);
+
+        $query = Todo::with('user:id,name');
+
+        // $sQ = ::where('todo', 'LIKE', '%' . $request->search . '%')->get();
         if ($request->search) {
             $query->where('todo', 'LIKE', '%' . $request->search . '%');
         }    
