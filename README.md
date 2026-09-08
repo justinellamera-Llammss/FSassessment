@@ -1,15 +1,18 @@
-# Todo list FSassessment
+
+# Todo list  (FS assessment)
+
+### A simple crud todo list made for the assessment.
 
 #### Note: Some of best practices/coding standards for this assessment is not followed.   
 
-Versions
-LARAVEL: 13.x
-VITE: 8.0.0
-DATABASE: mySql
 
-Helpfull commands
+## Version
+- LARAVEL: 13.x
+- VITE: 8.0.0
+- DATABASE: mySql
 
-php artisan db:seed
-php artisan migrate
-php artisan key:generate
 
+#### Helpfull commands
+- php artisan key:generate
+- php artisan db:seed
+- php artisan migrate

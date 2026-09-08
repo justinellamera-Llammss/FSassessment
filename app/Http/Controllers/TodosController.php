@@ -16,7 +16,7 @@ class TodosController extends Controller
         // Add pagination later
         $query = Todo::query();
         // $query = Todo::where('user_id', $request->user_id);
-
+        
         // $sQ = Todo::where('todo', 'LIKE', '%' . $request->search . '%')->get();
         if ($request->search) {
             $query->where('todo', 'LIKE', '%' . $request->search . '%');
@@ -27,7 +27,8 @@ class TodosController extends Controller
         }
 
         // $todo = $query->get();
-        $todo = $query->paginate(10);
+        $perPage = $request->per_page ? (int) $request->per_page : 10;
+        $todo = $query->paginate($perPage);
 
         return response()->json([
             // 'user_id' => $request->user_id,

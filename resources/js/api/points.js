@@ -1,12 +1,13 @@
 import api from "./api";
 
-export function getTodo(userId, status, search, page = 1) {
+export function getTodo(userId, status, search, page = 1, perPage = 10) {
     return api.get(`/todo`, {
         params: {
             user_id: userId,
             status: status,
             search: search,
-            page: page
+            page: page,
+            per_page: perPage
         }
     });
 }

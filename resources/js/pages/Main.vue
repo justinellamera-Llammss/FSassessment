@@ -2,11 +2,10 @@
 import { ref, watchEffect, watch, onMounted } from 'vue';
 import { createTodo, createUser, deleteTodo, getTodo, updateTodoStatus, editTodo} from '../api/points.js';
 
-const makeTodos = ref('');
+const makeTodos = ref(''); 
 const searchByKeyword = ref('');
 const md = ref(true);
 const at = ref("");
-
 
 // user_id 
 const bkb = ref(null);
@@ -16,6 +15,8 @@ const currP = ref(1);
 const lP = ref(1);
 
 const todoStatus = ref('all');
+
+const perPage = ref(10);
 
 // Edit todo item
 const editItem = ref('');
@@ -33,14 +34,23 @@ watchEffect(() => {
 
 watch(todoStatus, async () => {
     console.log(todoStatus.value);
+    currP.value = 1;
     loadTodo();
 });
 
+let searchTimeout = null;
+
 watch(searchByKeyword, async() => {
-    setTimeout(() => {
-        // search(searchByKeyword.value);
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        currP.value = 1;
         loadTodo();
-    }, 1000);
+    }, 500);
+})
+
+watch(perPage, async () => {
+    currP.value = 1;
+    loadTodo();
 })
 
 const loadTodo = async () => {
@@ -49,7 +59,8 @@ const loadTodo = async () => {
             bkb.value,
             todoStatus.value,
             searchByKeyword.value,
-            currP.value
+            currP.value,
+            perPage.value
         );
 
         console.log(res);
@@ -197,13 +208,27 @@ const prevPage = () => {
             </div>
 
             <div v-else>
-                <!-- Keyword Search -->
-                <div class="w-full">
-                    <h1 class="text-xs">Search by Keyword</h1>
-                    <input 
-                        v-model="searchByKeyword" 
-                        placeholder="Keyword Search" 
-                        class="rounded-xl p-2 bg-stone-200 mt-2 text-xs">
+                <!-- ====== Keyword Search + Per Page  ======-->
+                <div class="w-full flex gap-4 items-end">
+                    <div class="flex-1">
+                        <h1 class="text-xs">Search by Keyword</h1>
+                        <input 
+                            v-model="searchByKeyword" 
+                            placeholder="Keyword Search" 
+                            class="rounded-xl p-2 bg-stone-200 mt-2 text-xs w-full">
+                    </div>
+                    <div>
+                        <h1 class="text-xs">Per Page</h1>
+                        <select 
+                            v-model="perPage"
+                            class="rounded-xl p-2 bg-stone-200 mt-2 text-xs"
+                        >
+                            <option :value="5">5</option>
+                            <option :value="10">10</option>
+                            <option :value="20">20</option>
+                            <option :value="50">50</option>
+                        </select>
+                    </div>
                 </div>
 
                 <form id="form" @submit.prevent="onSubmitTodo">
