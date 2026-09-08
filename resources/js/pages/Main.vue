@@ -372,18 +372,25 @@ const prevPage = () => {
                 </div>
                 <div class="flex gap-4 justify-end mt-4">
 
-                    <button
+                    <!-- <button
                         class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white"
                         @click="nxtPage"
                     >
                         Next Page
-                    </button>
+                    </button> -->
 
                     <button
                         class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white"
                         @click="prevPage"
                     >
                         Previous Page
+                    </button>
+
+                     <button
+                        class="p-2 mt-2 text-xs bg-orange-400 rounded-xl hover:bg-orange-600 text-white"
+                        @click="nxtPage"
+                    >
+                        Next Page
                     </button>
                 </div>
             </div>
