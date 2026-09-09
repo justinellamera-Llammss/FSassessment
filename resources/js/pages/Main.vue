@@ -109,7 +109,7 @@ const onSubmitTodo = async () => {
         });
 
         if (res.data.success) {
-            
+            await loadTodo();
             makeTodos.value = '';
         }
 
