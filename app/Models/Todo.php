@@ -14,11 +14,15 @@ class Todo extends Model
     protected $table = 'todos';
 
     protected $fillable = [
-        'user_id', 
-        'todo', 
-        'status'
+        'user_id',
+        'todo',
+        'status_id'
     ];
 
+    public function statusRelation(): BelongsTo
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
 
     public function user(): BelongsTo
     {

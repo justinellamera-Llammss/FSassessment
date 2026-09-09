@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Todo;
 use App\Models\User;
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +23,7 @@ class TodoFactory extends Factory
             //
             'user_id' => User::factory(), 
             'todo' => fake()->sentence(), 
-            'status' => fake()->randomElement(['pending', 'done']),
+            'status_id' => Status::inRandomOrder()->first()->id,
         ];
     }
 }

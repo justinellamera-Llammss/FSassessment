@@ -119,11 +119,12 @@ const onSubmitTodo = async () => {
 };
 
 const updateStatus = async (todo) => {
-    const newStatus = todo.status === 'pending' ? 'done' : 'pending';
+    const newStatus = todo.status_id === 2 ? 1 : 2;
 
     try {
         const res = await updateTodoStatus(todo.id, newStatus);
-        todo.status = res.data.data.status;
+        todo.status_id = res.data.data.status_id;
+        todo.status_relation = res.data.data.status_relation;
 
     } catch (error) {
         console.error(error);
@@ -291,14 +292,14 @@ onMounted(() => loadTodo())
                                 bg-orange-500 text-white px-4 py-1 rounded-xl gap-2
                                 hover:bg-orange-600 
                             "
-                                @click="todoStatus = 'pending'"
+                                @click="todoStatus = 1"
                             >
                                 Pending
                             </button>
 
                             <button class="bg-orange-500 text-white px-4 rounded-xl gap-2
                                 hover:bg-orange-600"
-                                @click="todoStatus = 'done'"
+                                @click="todoStatus = 2"
                             >
                                 Done
                             </button>
@@ -341,16 +342,16 @@ onMounted(() => loadTodo())
                                 </div>
                                 <div class="flex flex-row items-center w-[95%]">
                                     <div 
-                                        :class="todo.status === 'done' ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
+                                        :class="todo.status_id === 2 ? 'text-xs line-through pr-2' : 'text-xs pr-2'"
                                     >
                                         <p class="">{{ todo.todo }}</p>
                                     </div>
                                 </div>
-                                    <div :class="todo.status === 'pending' ? 'w-20 h-4 bg-orange-400 self-left text-xs text-white px-4 rounded-xl gap-2' :
+                                    <div :class="todo.status_id === 1 ? 'w-20 h-4 bg-orange-400 self-left text-xs text-white px-4 rounded-xl gap-2' :
                                         ' bg-orange-600 text-white px-4 rounded-xl w-16 gap-2 h-4 text-xs'
                                         "
                                         >
-                                        {{ todo.status }}
+                                        {{ todo.status_id === 1 ? "Pending" : "Done" }}
                                     </div>
                             </div>
 
@@ -360,7 +361,7 @@ onMounted(() => loadTodo())
                                     "
                                         @click="updateStatus(todo)"
                                     >
-                                        {{ todo.status === 'pending' ? 'Done' : 'Undo' }}
+                                        {{ todo.status_id === 1 ? 'Done' : 'Undo' }}
                                     </button>
 
                                     <button class="bg-orange-600 text-white px-4 rounded-xl

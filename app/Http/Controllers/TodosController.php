@@ -15,16 +15,16 @@ class TodosController extends Controller
     {
         // Add pagination later
         // $name = Todo::where('name', $request->user_id);
-
-        $query = Todo::with('user:id,name');
+        // $query = Todo::query();
+        $query = Todo::with('user:id,name', 'statusRelation:id,name');
 
         // $sQ = ::where('todo', 'LIKE', '%' . $request->search . '%')->get();
         if ($request->search) {
             $query->where('todo', 'LIKE', '%' . $request->search . '%');
         }    
 
-        if ($request->status && $request->status !== 'all') {
-            $query->where('status', $request->status);
+        if ($request->status_id && $request->status_id !== 'all') {
+            $query->where('status_id', $request->status_id);
         }
 
         // $todo = $query->get();
@@ -61,7 +61,7 @@ class TodosController extends Controller
         $todo = Todo::create([
             'user_id' => $request->user_id,
             'todo' => $request->todo,
-            'status' => 'pending',
+            'status_id' => 1,
         ]);
 
         return response()->json([
@@ -98,7 +98,7 @@ class TodosController extends Controller
     {   
         // dd($request->all());
     
-        $todo->status = $request->status;
+        $todo->status_id = $request->status_id;
         $todo->save();
 
         return response()->json([
